@@ -1,0 +1,18 @@
+{
+    "clienttab": "PCI Devices",
+    "current_speed": "Current Speed",
+    "devices": "PCI Devices",
+    "sppci_device_type": "Device Type",
+    "name": "Device Name",
+    "noPCI": "No PCI Devices",
+    "reporttitle": "PCI Report",
+    "PCI": "PCI",
+    "sppci_driver_installed": "Driver Installed",
+    "sppci_link-speed": "Link Speed",
+    "sppci_link-width": "Link Width",
+    "sppci_msi": "MSI",
+    "sppci_pause-compatible": "Pause Compatible",
+    "vendor": "Vendor",
+    "sppci_name": "PCI Name",
+    "report": "PCI Report"
+}
