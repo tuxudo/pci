@@ -9,7 +9,11 @@ $(document).on('appReady', function(){
         
         // Check if we have data
         if( data == "" || ! data){
-            $('#pci-msg').text(i18n.t('pci.nopci'));
+            $('#pci-msg').text(i18n.t('pci.no_pci'));
+            
+            // Set the tab badge to blank
+            $('#pci-cnt').html("");
+            
         } else {
 
             // Hide
@@ -28,6 +32,12 @@ $(document).on('appReady', function(){
                     if(skipThese.indexOf(prop) == -1){
                         if (d[prop] == null || d[prop] == ""){
                             // Do nothing for the nulls to blank them
+                                                    
+                        } else if((prop == 'driver_installed' || prop == 'msi') && d[prop] == 1){
+                            rows = rows + '<tr><th>'+i18n.t('pci.'+prop)+'</th><td>'+i18n.t('yes')+'</td></tr>';
+                        } else if((prop == 'driver_installed' || prop == 'msi') && d[prop] == 0){
+                            rows = rows + '<tr><th>'+i18n.t('pci.'+prop)+'</th><td>'+i18n.t('no')+'</td></tr>';
+                            
                         } else {
                             rows = rows + '<tr><th>'+i18n.t('pci.'+prop)+'</th><td>'+d[prop]+'</td></tr>';
                         }
@@ -36,9 +46,9 @@ $(document).on('appReady', function(){
                 $('#pci-tab')
                     .append($('<h4>')
                         .append($('<i>')
-                            .addClass('fa fa-bolt'))
+                            .addClass('fa fa-credit-card-alt'))
                         .append(' '+d.name))
-                    .append($('<div style="max-width:390px;">')
+                    .append($('<div style="max-width:550px;">')
                         .append($('<table>')
                             .addClass('table table-striped table-condensed')
                             .append($('<tbody>')

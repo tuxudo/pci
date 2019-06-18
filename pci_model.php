@@ -2,7 +2,7 @@
 
 use CFPropertyList\CFPropertyList;
 
-class PCI_model extends \Model {
+class Pci_model extends \Model {
 
 	function __construct($serial='')
 	{
@@ -10,16 +10,18 @@ class PCI_model extends \Model {
 		$this->rs['id'] = '';
 		$this->rs['serial_number'] = $serial;
 		$this->rs['name'] = '';
-		$this->rs['sppci_driver_installed'] = '';
-		$this->rs['vendor'] = '';
-		$this->rs['sppci_link-speed'] = '';
-		$this->rs['sppci_link-width'] = '';
-		$this->rs['sppci_msi'] = '';
-		$this->rs['sppci_pause-compatible'] = '';
-		$this->rs['sppci_slot_name'] = '';
-		$this->rs['sppci_revision-id'] = '';
-		$this->rs['sppci_name'] = '';
-		$this->rs['device_json'] = '';
+		$this->rs['device_id'] = '';
+		$this->rs['device_type'] = '';
+		$this->rs['driver_installed'] = ''; // True/False
+		$this->rs['link_speed'] = '';
+		$this->rs['link_width'] = '';
+		$this->rs['msi'] = ''; // True/False
+		$this->rs['device_name'] = '';
+		$this->rs['revision_id'] = '';
+		$this->rs['slot_name'] = '';
+		$this->rs['subsystem_id'] = '';
+		$this->rs['subsystem_vendor_id'] = '';
+		$this->rs['vendor_id'] = '';
 
         if ($serial) {
             $this->retrieve_record($serial);
@@ -75,38 +77,37 @@ class PCI_model extends \Model {
         		
 		$typeList = array(
 			'name' => '',
-			'sppci_driver_installed' => '',
-			'vendor' => '',
-			'sppci_link-speed' => '',
-			'sppci_link-width' => '',
-			'sppci_msi' => '',
-			'sppci_pause-compatible' => '',
-			'sppci_slot_name' => '',
-			'sppci_revision-id' => '',
-			'sppci_name' => '',
-			'device_json' => ''
+			'device_id' => '',
+			'device_type' => '',
+			'driver_installed' => '',
+			'link_speed' => '',
+			'link_width' => '',
+			'msi' => '',
+			'device_name' => '',
+			'revision_id' => '',
+			'slot_name' => '',
+			'subsystem_id' => '',
+			'subsystem_vendor_id' => '',
+			'vendor_id' => ''
 		);
-		
+
 		foreach ($myList as $device) {
 			// Check if we have a name
 			if( ! array_key_exists("name", $device)){
 				continue;
 			}
 
-			// Adjust names
-			$device['name'] = str_replace(array('Service: '), array(' '), $device['name']);
-            
 			foreach ($typeList as $key => $value) {
 				$this->rs[$key] = $value;
 				if(array_key_exists($key, $device))
 				{
 					$this->rs[$key] = $device[$key];
 				} else {
-                    $this->rs[$key] = null;
-                }
+					$this->rs[$key] = null;
+				}
 			}
 
-			// Save device
+			// Save the device, save the game
 			$this->id = '';
 			$this->save();
 		}

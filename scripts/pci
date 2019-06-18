@@ -5,8 +5,6 @@ import subprocess
 import os
 import plistlib
 import sys
-import platform
-import json
 
 sys.path.insert(0, '/usr/local/munki')
 
@@ -44,29 +42,48 @@ def flatten_pci_info(array, localization):
                 continue  
             elif item == '_items':
                 out = out + flatten_pci_info(obj['_items'], localization)
-            elif item == 'receptacle_upstream_ambiguous_tag' and 'current_speed_key' in obj[item]:
-                device['current_speed'] = obj[item]['current_speed_key']
-            elif item == 'services_title':
-                try:
-                    device['name'] = localization[obj[item][0]['_name']].strip()
-                except Exception:
-                    device['name'] = obj[item][0]['_name']
-                # Save the whole device as a JSON for later processing
-                device['device_json'] = json.dumps(obj)
-            elif item == '_name' and 'services_title' not in obj:
+                
+            elif item == '_name':
                 device['name'] = obj[item]
-                # Save the whole device as a JSON for later processing
-                device['device_json'] = json.dumps(obj)
-            elif item == 'vendor_name_key':
-                device['vendor'] = obj[item]
-            # elif item == 'aapl_serial_number_key' or item == 'serial_number' or item == 'device_serial_number':
-            #     device['device_serial_number'] = obj[item]
+            elif item == 'sppci_device-id':
+                device['device_id'] = obj[item]
+            elif item == 'sppci_device_type':
+                try:
+                    device['device_type'] = localization[obj[item]].strip()
+                except Exception:
+                    device['device_type'] = obj[item]
+            elif item == 'sppci_driver_installed':
+                device['driver_installed'] = to_bool(obj[item])
+            elif item == 'sppci_link-speed':
+                device['link_speed'] = obj[item]
+            elif item == 'sppci_link-width':
+                device['link_width'] = obj[item]
+            elif item == 'sppci_msi':
+                device['msi'] = to_bool(obj[item])
+            elif item == 'sppci_name':
+                device['device_name'] = obj[item]
+            elif item == 'sppci_revision-id':
+                device['revision_id'] = obj[item]
+            elif item == 'sppci_slot_name':
+                device['slot_name'] = obj[item]
+            elif item == 'sppci_subsystem-id':
+                device['subsystem_id'] = obj[item]
+            elif item == 'sppci_subsystem-vendor-id':
+                device['subsystem_vendor_id'] = obj[item]
+            elif item == 'sppci_vendor-id':
+                device['vendor_id'] = obj[item]
 
         # Only append device if it has a name
         if 'name' in device:
             out.append(device)
             
     return out
+
+def to_bool(s):
+    if s == True:
+        return 1
+    else:
+        return 0 
 
 def main():
     """Main"""

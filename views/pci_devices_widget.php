@@ -1,7 +1,7 @@
 <div class="col-lg-4 col-md-6">
-	<div class="panel panel-default" id="pci-devices-widget">
+	<div class="panel panel-default" id="pci_devices-widget">
 		<div class="panel-heading" data-container="body" >
-			<h3 class="panel-title"><i class="fa fa-pci"></i>
+			<h3 class="panel-title"><i class="fa fa-credit-card-alt"></i>
 			    <span data-i18n="pci.clienttab"></span>
 			    <list-link data-url="/show/listing/pci/pci"></list-link>
 			</h3>
@@ -13,7 +13,7 @@
 <script>
 $(document).on('appUpdate', function(e, lang) {
 	
-	var box = $('#pci-devices-widget div.scroll-box');
+	var box = $('#pci_devices-widget div.scroll-box');
 	
 	$.getJSON( appUrl + '/module/pci/get_pci_devices', function( data ) {
 		
@@ -24,7 +24,7 @@ $(document).on('appUpdate', function(e, lang) {
                 box.append('<a href="'+appUrl+'/show/listing/pci/pci/#'+d.name+'" class="list-group-item">'+d.name+badge+'</a>')
 			});
 		} else {
-			box.append('<span class="list-group-item">'+i18n.t('pci.nopci')+'</span>');
+			box.append('<span class="list-group-item">'+i18n.t('pci.no_pci')+'</span>');
 		}
 	});
 });	

@@ -3,7 +3,7 @@
 <?php // Initialize models needed for the table
 new Machine_model;
 new Reportdata_model;
-new PCI_model;
+new Pci_model;
 ?>
 
 <div class="container">
@@ -16,14 +16,17 @@ new PCI_model;
                     <th data-i18n="listing.computername" data-colname='machine.computer_name'></th>
                     <th data-i18n="serial" data-colname='reportdata.serial_number'></th>
                     <th data-i18n="pci.name" data-colname='pci.name'></th>
-                    <th data-i18n="pci.sppci_link-speed" data-colname='pci.sppci_link-speed'></th>
-                    <th data-i18n="pci.sppci_link-width" data-colname='pci.sppci_link-width'></th>
-                    <th data-i18n="pci.sppci_slot_name" data-colname='pci.sppci_slot_name'></th>
+                    <th data-i18n="pci.device_type" data-colname='pci.device_type'></th>
+                    <th data-i18n="pci.link_speed" data-colname='pci.link_speed'></th>
+                    <th data-i18n="pci.link_width" data-colname='pci.link_width'></th>
+                    <th data-i18n="pci.slot_name" data-colname='pci.slot_name'></th>
+                    <th data-i18n="pci.device_name" data-colname='pci.device_name'></th>
+                    <th data-i18n="pci.driver_installed" data-colname='pci.driver_installed'></th>
                 </tr>
             </thead>
                 <tbody>
                     <tr>
-                        <td data-i18n="listing.loading" colspan="6" class="dataTables_empty"></td>
+                        <td data-i18n="listing.loading" colspan="9" class="dataTables_empty"></td>
                     </tr>
                 </tbody>
             </table>
@@ -81,11 +84,6 @@ new PCI_model;
                         });
 
                     }
-        		    // IDK what this does
-                    if(d.search.value.match(/^\d+\.\d+(\.(\d+)?)?$/)){
-                        var search = d.search.value.split('.').map(function(x){return ('0'+x).slice(-2)}).join('');
-                        d.search.value = search;
-                    }
                 }
             },
             dom: mr.dt.buttonDom,
@@ -99,6 +97,12 @@ new PCI_model;
 	        	var sn=$('td:eq(1)', nRow).html();
 	        	var link = mr.getClientDetailLink(name, sn, '#tab_pci-tab');
 	        	$('td:eq(0)', nRow).html(link);
+
+	        	// driver_installed
+	        	var colvar=$('td:eq(8)', nRow).html();
+	        	colvar = colvar == '1' ? i18n.t('yes') :
+	        	(colvar === '0' ? i18n.t('no') : '')
+	        	$('td:eq(8)', nRow).html(colvar)
 		    }
 	    });
 

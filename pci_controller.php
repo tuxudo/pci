@@ -6,7 +6,7 @@
  * @package munkireport
  * @author tuxudo
  **/
-class PCI_controller extends Module_controller
+class Pci_controller extends Module_controller
 {
 	
 	/*** Protect methods with auth! ****/
@@ -60,7 +60,8 @@ class PCI_controller extends Module_controller
         
         $queryobj = new PCI_model();
         
-        $sql = "SELECT name, vendor, sppci_device_type
+        $sql = "SELECT name, device_type, driver_installed, link_speed, link_width, device_name, slot_name, 
+                        device_id, revision_id, subsystem_id, subsystem_vendor_id, vendor_id
                         FROM pci 
                         WHERE serial_number = '$serial_number'";
         
@@ -69,4 +70,4 @@ class PCI_controller extends Module_controller
         $obj->view('json', array('msg' => current(array('msg' => $pci_tab)))); 
     }
 		
-} // END class PCI_controller
+} // End class Pci_controller
