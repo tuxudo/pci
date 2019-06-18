@@ -38,7 +38,6 @@ class Pci extends Migration
             $table->index('subsystem_id');
             $table->index('subsystem_vendor_id');
             $table->index('vendor_id');
-
         });
     }
     
