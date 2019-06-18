@@ -9,13 +9,15 @@ Based on Thunderbolt module by tuxudo
 
 Table Schema
 ---
-* name - varchar(255) - name of the PCI device
-* sppci_device_type - varchar(255) - PCI device type
-* vendor - varchar(255) - device vendor
-* sppci_link-speed - varchar(255) - 
-* sppci_link-width - varchar(255) - 
-* sppci_msi - varchar(255) - 
-* sppci_pause-compatible - varchar(255) - 	
-* sppci_slot_name - varchar(255) - 
-* sppci_revision-id - varchar(255) - 
-* sppci_name - varchar(255) - 
+* name - varchar(255) - Name of the PCI device
+* device_id - varchar(255) - Device ID
+* device_type - varchar(255) - PCI device type
+* driver_installed - boolean - Is driver installed
+* link_speed - varchar(255) - Link speed
+* link_width - varchar(255) - Link width
+* device_name - varchar(255) - Device name
+* revision_id - varchar(255) - Revision ID
+* slot_name - varchar(255) - Slot name
+* subsystem_id - varchar(255) - Subsystem ID
+* subsystem_vendor_id - varchar(255) - Subsystem vendor ID
+* vendor_id - varchar(255) - Vendor ID
