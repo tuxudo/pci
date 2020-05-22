@@ -1,0 +1,12 @@
+client_tabs:
+    pci-tab:
+        view: pci_tab
+        i18n: pci.clienttab
+        badge: pci-cnt
+listings:
+    pci:
+        view: pci_listing
+        i18n: pci.clienttab
+widgets:
+    pci_devices:
+        view: pci_devices_widget

@@ -1,0 +1,9 @@
+type: scrollbox
+widget_id: pci_devices-widget
+api_url: /module/pci/get_pci_devices
+i18n_title: pci.clienttab
+icon: fa-credit-card-alt
+listing_link: /show/listing/pci/pci
+search_key: name
+i18nEmptyResult: pci.no_pci
+badge: count

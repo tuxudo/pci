@@ -34,15 +34,24 @@ class Pci_controller extends Module_controller
      **/
      public function get_pci_devices()
      {
-        $obj = new View();
-
-        if (! $this->authorized()) {
-            $obj->view('json', array('msg' => array('error' => 'Not authenticated')));
-            return;
-        }
+         
+        $sql = "SELECT COUNT(CASE WHEN name <> '' AND name IS NOT NULL THEN 1 END) AS count, name 
+                FROM pci
+                LEFT JOIN reportdata USING (serial_number)
+                ".get_machine_group_filter()."
+                GROUP BY name
+                ORDER BY count DESC";
         
-        $usb = new PCI_model;
-        $obj->view('json', array('msg' => $usb->get_pci_devices()));
+        $out = array();
+        $queryobj = new Pci_model;
+        foreach ($queryobj->query($sql) as $obj) {
+            if ("$obj->count" !== "0") {
+                $obj->name = $obj->name ? $obj->name : 'Unknown';
+                $out[] = $obj;
+            }
+        }
+
+        jsonView($out);
      }
     
    /**
@@ -51,23 +60,14 @@ class Pci_controller extends Module_controller
      **/
     public function get_data($serial_number = '')
     {
-        $obj = new View();
-
-        if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
-            return;
-        }
-        
-        $queryobj = new PCI_model();
-        
+    
         $sql = "SELECT name, device_type, driver_installed, link_speed, link_width, device_name, slot_name, 
                         device_id, revision_id, subsystem_id, subsystem_vendor_id, vendor_id
                         FROM pci 
                         WHERE serial_number = '$serial_number'";
-        
-        $pci_tab = $queryobj->query($sql);
 
-        $obj->view('json', array('msg' => current(array('msg' => $pci_tab)))); 
+        $queryobj = new Pci_model();
+        jsonView($queryobj->query($sql));
     }
 		
 } // End class Pci_controller

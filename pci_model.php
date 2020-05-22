@@ -54,7 +54,7 @@ class Pci_model extends \Model {
         }
         return $out;
      }
-    
+
 	/**
 	 * Process data sent by postflight
 	 *
@@ -67,37 +67,21 @@ class Pci_model extends \Model {
 		if ( ! $plist){
 			throw new Exception("Error Processing Request: No property list found", 1);
 		}
-		
+
 		// Delete previous set        
 		$this->deleteWhere('serial_number=?', $this->serial_number);
 
 		$parser = new CFPropertyList();
 		$parser->parse($plist, CFPropertyList::FORMAT_XML);
 		$myList = $parser->toArray();
-        		
-		$typeList = array(
-			'name' => '',
-			'device_id' => '',
-			'device_type' => '',
-			'driver_installed' => '',
-			'link_speed' => '',
-			'link_width' => '',
-			'msi' => '',
-			'device_name' => '',
-			'revision_id' => '',
-			'slot_name' => '',
-			'subsystem_id' => '',
-			'subsystem_vendor_id' => '',
-			'vendor_id' => ''
-		);
 
-		foreach ($myList as $device) {
+        foreach ($this->rs as $device) {
 			// Check if we have a name
 			if( ! array_key_exists("name", $device)){
 				continue;
 			}
 
-			foreach ($typeList as $key => $value) {
+			foreach ($this->rs as $key => $value) {
 				$this->rs[$key] = $value;
 				if(array_key_exists($key, $device))
 				{

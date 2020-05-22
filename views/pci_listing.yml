@@ -1,0 +1,16 @@
+i18n_title: pci.reporttitle
+not_null_column: name
+table:
+  - column: machine.computer_name
+    i18n_header: listing.computername
+    formatter: clientDetail
+    tab_link: pci-tab
+  - column: reportdata.serial_number
+    i18n_header: serial
+  - {i18n_header: pci.name, column: pci.name}
+  - {i18n_header: pci.device_type, column: pci.device_type}
+  - {i18n_header: pci.link_speed, column: pci.link_speed}
+  - {i18n_header: pci.link_width, column: pci.link_width}
+  - {i18n_header: pci.slot_name, column: pci.slot_name}
+  - {i18n_header: pci.device_name, column: pci.device_name}
+  - {i18n_header: pci.driver_installed, column: pci.driver_installed, formatter: binaryYesNo}
