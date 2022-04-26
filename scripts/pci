@@ -81,7 +81,7 @@ def flatten_pci_info(array, localization):
     return out
 
 def to_bool(s):
-    if s == True:
+    if s == True or s == 1 or s == "TRUE" or s == "Yes":
         return 1
     else:
         return 0 

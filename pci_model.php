@@ -23,44 +23,44 @@ class Pci_model extends \Model {
 		$this->rs['subsystem_vendor_id'] = '';
 		$this->rs['vendor_id'] = '';
 
-        if ($serial) {
-            $this->retrieve_record($serial);
-        }
+		if ($serial) {
+			$this->retrieve_record($serial);
+		}
 
 		$this->serial_number = $serial;
 	}
 	
-	// ------------------------------------------------------------------------
-   
-     /**
-     * Get PCI device names for widget
-     *
-     **/
-     public function get_pci_devices()
-     {
-        $out = array();
-        $sql = "SELECT COUNT(CASE WHEN name <> '' AND name IS NOT NULL THEN 1 END) AS count, name 
-                FROM pci
-                LEFT JOIN reportdata USING (serial_number)
-                ".get_machine_group_filter()."
-                GROUP BY name
-                ORDER BY count DESC";
-        
-        foreach ($this->query($sql) as $obj) {
-            if ("$obj->count" !== "0") {
-                $obj->name = $obj->name ? $obj->name : 'Unknown';
-                $out[] = $obj;
-            }
-        }
-        return $out;
-     }
+// ------------------------------------------------------------------------
 
 	/**
-	 * Process data sent by postflight
-	 *
-	 * @param string data
-	 * @author tuxudo
-	 **/
+	* Get PCI device names for widget
+	*
+	**/
+	public function get_pci_devices()
+	{
+		$out = array();
+		$sql = "SELECT COUNT(CASE WHEN name <> '' AND name IS NOT NULL THEN 1 END) AS count, name 
+			FROM pci
+			LEFT JOIN reportdata USING (serial_number)
+			".get_machine_group_filter()."
+			GROUP BY name
+			ORDER BY count DESC";
+
+		foreach ($this->query($sql) as $obj) {
+			if ("$obj->count" !== "0") {
+				$obj->name = $obj->name ? $obj->name : 'Unknown';
+				$out[] = $obj;
+			}
+		}
+		return $out;
+	}
+
+	/**
+	* Process data sent by postflight
+	*
+	* @param string data
+	* @author tuxudo
+	**/
 	function process($plist)
 	{
 		// Check if we have data
@@ -75,7 +75,10 @@ class Pci_model extends \Model {
 		$parser->parse($plist, CFPropertyList::FORMAT_XML);
 		$myList = $parser->toArray();
 
-        foreach ($this->rs as $device) {
+		foreach ($myList as $device) {
+
+			var_dump($device);
+
 			// Check if we have a name
 			if( ! array_key_exists("name", $device)){
 				continue;
@@ -86,7 +89,8 @@ class Pci_model extends \Model {
 				if(array_key_exists($key, $device))
 				{
 					$this->rs[$key] = $device[$key];
-				} else {
+				} else if ($key != "serial_number") {
+					print_r($key);
 					$this->rs[$key] = null;
 				}
 			}

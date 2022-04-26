@@ -60,6 +60,7 @@ class Pci_controller extends Module_controller
      **/
     public function get_data($serial_number = '')
     {
+        $serial_number = preg_replace("/[^A-Za-z0-9_\-]]/", '', $serial_number);
     
         $sql = "SELECT name, device_type, driver_installed, link_speed, link_width, device_name, slot_name, 
                         device_id, revision_id, subsystem_id, subsystem_vendor_id, vendor_id
