@@ -77,8 +77,6 @@ class Pci_model extends \Model {
 
 		foreach ($myList as $device) {
 
-			var_dump($device);
-
 			// Check if we have a name
 			if( ! array_key_exists("name", $device)){
 				continue;
