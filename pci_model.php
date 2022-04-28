@@ -90,7 +90,6 @@ class Pci_model extends \Model {
 				{
 					$this->rs[$key] = $device[$key];
 				} else if ($key != "serial_number") {
-					print_r($key);
 					$this->rs[$key] = null;
 				}
 			}
