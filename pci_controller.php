@@ -66,7 +66,9 @@ class Pci_controller extends Module_controller
         $sql = "SELECT name, device_type, driver_installed, link_speed, link_width, device_name, slot_name, 
                         device_id, revision_id, subsystem_id, subsystem_vendor_id, vendor_id
                         FROM pci 
-                        WHERE serial_number = '$serial_number'";
+                        LEFT JOIN reportdata USING (serial_number)
+                        ".get_machine_group_filter()."
+                        AND serial_number = '$serial_number'";
 
         $queryobj = new Pci_model();
         jsonView($queryobj->query($sql));
